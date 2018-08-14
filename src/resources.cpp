@@ -9,7 +9,9 @@
 
 extern "C" {
 #include <sys/time.h>
+#if 0
 #include <sys/resource.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
@@ -24,12 +26,16 @@ namespace CaDiCaL {
 // of Unix not all fields are meaningful (or even existing).
 
 double process_time () {
+#if 0
   struct rusage u;
   double res;
   if (getrusage (RUSAGE_SELF, &u)) return 0;
   res = u.ru_utime.tv_sec + 1e-6 * u.ru_utime.tv_usec;  // user time
   res += u.ru_stime.tv_sec + 1e-6 * u.ru_stime.tv_usec; // + system time
   return res;
+#else
+  return 0;
+#endif
 }
 
 // This seems to work on Linux (man page says since Linux 2.6.32).
